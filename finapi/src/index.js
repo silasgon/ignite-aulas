@@ -79,6 +79,8 @@ app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
 
     const { customer } = request;
 
+    console.log(customer)
+
     const statementOperation = {
         description,
         amount,
