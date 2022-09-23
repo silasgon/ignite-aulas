@@ -32,3 +32,6 @@ Datas (fuso horario / formatos diferentes i18n)
 - Listagem de anúncios por game
 - Buscar discord pelo ID do anúncio
 
+
+# Problemas com importação do prisma
+"npx prisma db push"
