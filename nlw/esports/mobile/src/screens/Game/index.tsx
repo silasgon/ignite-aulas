@@ -7,28 +7,29 @@ import { Entypo } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import { GameParams } from "../../@types/@navigation";
-import { Image, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, TouchableOpacity, View, Text } from "react-native";
 import { THEME } from "../../theme";
 import { Heading } from "../../components/Heading";
-import { DuoCard } from "../../components/DuoCard";
+import { DuoCard, DuoCardProps } from "../../components/DuoCard";
 import { useEffect, useState } from "react";
 import { GameCardProps } from "../../components/GameCard";
 
+
 export function Game() {
-  const [duos, setDuos] = useState<GameCardProps[]>([]);
+  const [duos, setDuos] = useState<DuoCardProps[]>([]);
 
   const route = useRoute();
   const navigation = useNavigation();
   const game = route.params as GameParams;
 
-  function handleGoBack(){
+  function handleGoBack() {
     navigation.goBack();
   }
 
-  useEffect( () => {
-    fetch(`http://172.29.130.11:3333/games/${game.id}/ads`)
-    .then(response => response.json())
-    .then(data => setDuos(data));
+  useEffect(() => {
+    fetch(`http:///192.168.63.110:3333/games/${game.id}/ads`)
+      .then((response) => response.json())
+      .then((data) => setDuos(data));
   }, []);
 
   return (
@@ -54,7 +55,20 @@ export function Game() {
 
         <Heading title={game.title} subtitle="Conecte-se e comece a jogar!" />
 
-        <DuoCard />
+        <FlatList
+          data={duos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <DuoCard data={item} onConnect={() => {}} />
+          )}
+          horizontal
+          style={styles.containerList}
+          contentContainerStyle={[duos.length > 0 ? styles.contentList : styles.emptyListContent ]}
+          showsHorizontalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <Text style={styles.emptyListText}>Não há anúncios publicados ainda.</Text>
+          )}
+        />
       </SafeAreaView>
     </Background>
   );
