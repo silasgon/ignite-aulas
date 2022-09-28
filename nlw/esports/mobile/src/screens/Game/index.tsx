@@ -12,7 +12,7 @@ import { THEME } from "../../theme";
 import { Heading } from "../../components/Heading";
 import { DuoCard, DuoCardProps } from "../../components/DuoCard";
 import { useEffect, useState } from "react";
-import { GameCardProps } from "../../components/GameCard";
+import { DuoMatch } from '../../components/DuoMatch';
 
 
 export function Game() {
@@ -27,7 +27,7 @@ export function Game() {
   }
 
   useEffect(() => {
-    fetch(`http:///192.168.63.110:3333/games/${game.id}/ads`)
+    fetch(`http://172.29.130.11:3333/games/${game.id}/ads`)
       .then((response) => response.json())
       .then((data) => setDuos(data));
   }, []);
@@ -69,6 +69,7 @@ export function Game() {
             <Text style={styles.emptyListText}>Não há anúncios publicados ainda.</Text>
           )}
         />
+        <DuoMatch visible={true} discord="silas #13246" />
       </SafeAreaView>
     </Background>
   );
