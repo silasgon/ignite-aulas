@@ -13,10 +13,12 @@ import { Heading } from "../../components/Heading";
 import { DuoCard, DuoCardProps } from "../../components/DuoCard";
 import { useEffect, useState } from "react";
 import { DuoMatch } from '../../components/DuoMatch';
+import { CheckCircle } from 'phosphor-react-native'
 
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('silas #13246')
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -27,7 +29,7 @@ export function Game() {
   }
 
   useEffect(() => {
-    fetch(`http://172.29.130.11:3333/games/${game.id}/ads`)
+    fetch(`http://172.29.128.166:3333/games/${game.id}/ads`)
       .then((response) => response.json())
       .then((data) => setDuos(data));
   }, []);
@@ -43,6 +45,7 @@ export function Game() {
               size={20}
             />
           </TouchableOpacity>
+
           <Image source={logoImg} style={styles.logo} />
           <View style={styles.right} />
         </View>
@@ -59,17 +62,17 @@ export function Game() {
           data={duos}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <DuoCard data={item} onConnect={() => {}} />
+            <DuoCard data={item} onConnect={() => { }} />
           )}
           horizontal
           style={styles.containerList}
-          contentContainerStyle={[duos.length > 0 ? styles.contentList : styles.emptyListContent ]}
+          contentContainerStyle={[duos.length > 0 ? styles.contentList : styles.emptyListContent]}
           showsHorizontalScrollIndicator={false}
           ListEmptyComponent={() => (
             <Text style={styles.emptyListText}>Não há anúncios publicados ainda.</Text>
           )}
         />
-        <DuoMatch visible={true} discord="silas #13246" />
+        <DuoMatch visible={discordDuoSelected.length > 0} discord="silas #13246" onClose={() => setDiscordDuoSelected('')} />
       </SafeAreaView>
     </Background>
   );
